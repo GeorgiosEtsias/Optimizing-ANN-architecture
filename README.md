@@ -16,4 +16,45 @@ In this investigation only the amount of hidden layers and hidden neurons were t
    fig4=ploterrhist(gtrain-trainoutputs ,'Train',gval-valoutputs,'Validation',...
    gtst-testoutputs,'Testing','bins',20);
    saveas(fig4,'ploterrhist.fig');%regression plot for the best netowork
+if x(1)==1 
+    net1 = feedforwardnet(x(2));
+ %Plotting the No of layers and No of Neurons 
+ A=[x(1),x(2)];
+ %disp(A)
+ %calculating weights and biases of the NN
+ w=3*x(2)+x(2)*1;
+ b=x(2)+1;
+ wb=w+b;
+elseif x(1)==2
+    net1 = feedforwardnet([x(2) x(3)]);
+%Plotting the No of layers and No of Neurons 
+ A=[x(1),x(2), x(3)];
+ %disp(A)
+ %calculating weights and biases of the NN
+ w=3*x(2)+x(2)*x(3)+x(3)*1;
+ b=x(2)+x(3)+1;
+ wb=w+b;
+else
+    net1 = feedforwardnet([x(2) x(3) x(4)]);
+%Plotting the No of layers and No of Neurons  A  
+ A=[x(1),x(2), x(3), x(4)] ;
+ %disp(A)
+ %calculating weights and biases of the NN
+ w=3*x(2)+x(2)*x(3)+x(3)*x(4)+x(4)*1;
+ b=x(2)+x(3)+x(4)+1;
+ wb=w+b;
+end
+
+%% Max number of epochs dependent on weigths and biases of NN
+%----------------------OBOSLETE IN VERSION 5------------------------------%
+%10*10*10 NN has w+b=271, it needs aprox 3mins for 100 epochs training
+%The 3 minutes will be our training limit! 271*100=(w+b)*maxepoch
+
+%maxepoch = fix(27100/wb); %Linear relationship, obviously not the case!
+%At any case atleast one itteration and maximum 1000
+%if maxepoch>=1000
+%    maxepoch=1000;
+%elseif maxepoch<=1
+%        maxepoch=1;
+%end
 ```
