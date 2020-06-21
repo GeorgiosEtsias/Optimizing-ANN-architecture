@@ -1,5 +1,6 @@
 # Optimizing-ANN-architecture using genetic algortihms
 The project utilizes genetic algorithms to optimize the architecture of multi-layered Artificial Neural Networks (ANN) conducting a regression analysis on monochromatic laboratory figures. 
+
 It consists of a singe script [GeneticAlgorithm.m](https://github.com/GeorgiosEtsias/Optimizing-ANN-architecture/blob/master/GeneticAlgorithm.m) and two functions called into the script [Objective.m](https://github.com/GeorgiosEtsias/Optimizing-ANN-architecture/blob/master/Objective.m) that is the objective function determining the optimum architectre and [gaplotbestcustom.m](https://github.com/GeorgiosEtsias/Optimizing-ANN-architecture/blob/master/gaplotbestcustom.m) a variation of the standard plotting algorithm used in matlab, coping with the heuristic anature of the objective function.The dataset DATA used to train the ANNs is also attached.
 
 - Solution Domain
