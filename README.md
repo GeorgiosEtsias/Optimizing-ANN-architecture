@@ -11,6 +11,7 @@ The genetic procedures in the utilized GA, were kept as close to the default opt
 
 **Objective / Fitness function**
 The objective function includes the training of the neural networks. In order to make the whole optimization procedure faster an upper **limit of 180 secs (3 min)** was set for the training of each neural network. Another positive aspect of the applied time limit, is that it allowed for small, faster to train networks to be trained for a sufficient number of while at the same time preventing a very complex slow to train networks from getting an overwhelmingly good performance. This prevented the domination of the whole optimization procedure by bigger neural networks.
+
 **Two criteria** were chosen to evaluate the suitability of each ANN architecture: training time, performance and the lack of extremely bad predictions (outliers). The suitability of each solution was determined by the value of the objective function. Better architectures correspond to smaller function values and have bigger possibilities of being included in the next generation of solutions.
 
 **(a) Performance**
