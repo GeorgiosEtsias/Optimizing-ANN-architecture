@@ -3,33 +3,39 @@ The project utilizes genetic algorithms to optimize the architecture of multi-la
 
 It consists of a singe script [GeneticAlgorithm.m](https://github.com/GeorgiosEtsias/Optimizing-ANN-architecture/blob/master/GeneticAlgorithm.m) and two functions called into the script: [Objective.m](https://github.com/GeorgiosEtsias/Optimizing-ANN-architecture/blob/master/Objective.m) that is the objective function determining the optimum architecture and [gaplotbestcustom.m](https://github.com/GeorgiosEtsias/Optimizing-ANN-architecture/blob/master/gaplotbestcustom.m) a variation of the standard plotting algorithm used in matlab, coping with the heuristic anature of the objective function.The dataset DATA used to train the ANNs is also attached.
 
-- Solution Domain
-In this investigation only the amount of hidden layers and hidden neurons were taken into account. The training function (Levenberg-Marquardt) is the same for all the tested ANN designs. The same applies for the activation function of each layer, that is sigmoid for each hidden layer and a linear one for the output layer. Based on the experience acquired from the networks already trained the maximum allowed number of hidden layer were set to 3, while the maximum number of neurons to 20. Each possible architecture, or chromosome in the case of Gas, consisted of 4 variables, the number of hidden layers (1-3), the neurons of first layer (1-20), neurons of second layer, neurons of third layer. In order for the genetic procedures of Crossover and Mutation to take place, the chromosomes needed to be transformed into binary form. Thus the length of chromosomes in the current GA equals to 17 (Figure2).
+Problem description
+The problem used is one of conducting regression analysis in a series of laboratory images simulation groundwater flow. A detailed description of the problem can be found in [Robinson et al. (2015)]( https://www.sciencedirect.com/science/article/pii/S0022169415007295) and [Robinson et al. (2018)]( https://link.springer.com/article/10.1007/s11269-018-1977-6).
+Genetic procedures
+The genetic procedures in the utilized GA, were kept as close to the default options of Matlab Global Optimization Toolbox as possible. After each chromosome of the initial population was evaluated according to the value of the objective function it generated, the algorithm created crossover ‘children’ architectures by combining pairs of parents in the current population. At each coordinate of the child vector, the default crossover function randomly selects an entry, or gene, at the same coordinate from one of the two parents and assigns it to the child. The algorithm usually selects individuals that have better fitness values as parents. The algorithm creates mutation ‘children’ by randomly changing the genes of individual parents. The default selection option Stochastic uniform, was used. It lays out a line in which each parent corresponds to a section of the line of length proportional to its scaled value. The algorithm moves along the line in steps of equal size. At each step, the algorithm allocates a parent from the section it lands on. 80% of the new kids in the algorithm are selection kids. By default, for unconstrained problems, such as the current one, the algorithm adds a random vector from a Gaussian distribution to the parent. The best solution of the previous generation passes on to the next, being an “elite” child. 
 
-- Objective / Fitness function
-
-Three criteria were chosen to evaluate the suitability of each ANN architecture: training time, performance and the lack of extremely bad predictions (outliers). The suitability of each solution was determined by the value of the objective function. Better architectures correspond to smaller function values and have bigger possibilities of being included in the next generation of solutions.
-
-(a) Training time limit
-In order to make the whole optimization procedure faster an upper limit of 180 secs (3 min) was set for the training of each neural network. Another positive aspect of the applied time limit, is that it can allow for a small network (which is fast to train) to be trained for a sufficient number of epochs in order to learn the data associations and at the same time prevent a very complex network (which is slow to train) from overfitting the data.
-
-(b) Performance
+Objective / Fitness function
+The objective function includes the training of the neural networks. In order to make the whole optimization procedure faster an upper limit of 180 secs (3 min) was set for the training of each neural network. Another positive aspect of the applied time limit, is that it allowed for small, faster to train networks to be trained for a sufficient number of while at the same time preventing a very complex slow to train networks from getting an overwhelmingly good performance. This prevented the domination of the whole optimization procedure by bigger neural networks.
+Two criteria were chosen to evaluate the suitability of each ANN architecture: training time, performance and the lack of extremely bad predictions (outliers). The suitability of each solution was determined by the value of the objective function. Better architectures correspond to smaller function values and have bigger possibilities of being included in the next generation of solutions.
+(a) Performance
 The objective function calculates the performance, Mean Squared Error, generated for the whole data set perf, and the performance of the testing sub-set in particular testperf.  It is possible that a neural network with a better general or validation performance have a lower performance on the testing sub-set. 
-
-(c) Solution space consistency criterion
-Despite the requirement for the ANN to make accurate predictions it is just as important for these predictions to be consistent throughout the solution space. It is possible that while an ANN model may exhibit a low mean generalization error, there may be specific cases where it fails to accurately predict the desired value, i.e. it is not consistent in its predictions. The solution space consistency criterion applied here is a variation of the one proposed by Bernados and Vosniakos (2007). Its purpose is to track the percentage of outliers in the generated flow fields and apply and apply a penalty to the solutions with the higher percentages.
+```Matlab
+%% Getting the test and validation subests of inputs and targets
+ttst= trainn(:,tr.testInd);
+gtst= goall(:,tr.testInd);
+tval= trainn(:,tr.valInd); %used only ofr printing error hitogram 
+gval= goall(:,tr.valInd);  %used only ofr printing error hitogram
+ttrain= trainn(:,tr.trainInd);
+gtrain= goall(:,tr.trainInd);
+%% Calculating performance for the whole data set,in the final epoch 
+inputs=trainn;
+targets=goall;
+outputs = net2(inputs);
+perf = perform(net2, targets, outputs);
+%% Calculating performance for the testing data sub-set,in the final epoch 
+testoutputs = net2(ttst);
+testperf = perform(net2, gtst, testoutputs);
+```
+(b) Solution space consistency criterion
+Despite the requirement for the ANN to make accurate predictions it is just as important for these predictions to be consistent throughout the solution space. It is possible that while an ANN model may exhibit a low mean generalization error, there may be specific cases where it fails to accurately predict the desired value, i.e. it is not consistent in its predictions. The solution space consistency criterion applied here is a variation of the one proposed by [Bernados and Vosniakos (2007)]( https://www.sciencedirect.com/science/article/pii/S0952197606001072). Its purpose is to track the percentage of outliers in the generated flow fields and apply and apply a penalty to the solutions with the higher percentages.
 For each input pixel, the absolute value of the relative error (2) between the target output and the ANN prediction is calculated. If the relative error is in the interval [0,15), the prediction is considered a ‘‘good’’ one, if it is in the interval [15,25] it’s considered average while if the relative error is more than 25% the prediction is a “bad” one.
-
 Rel.Error=|predicted.val-real.val|/(real.val)  (2)
 The percentage of “good”, “average” and “bad” predictions is calculated. A penalty of 33% and 100% is applied to the solution fitness value for the percentage of average and bad predictions respectively. The need for this criterion was indicated by the larger amount of bad predictions (pixels) in the sw concentration fields generated by ANN’s in contrast to the ones generated by pixel-wise regression, even though the total generated MSE was lower in the first case.
-
 solspc=1+average%*0.33+bad% (3)
-
-Incorporating the aforementioned criteria, the objective function, that the genetic algorithm minimizes, thus optimizing the architecture of feedforward neural networks, in our problem equals to:
-
-ObjFun=perf×testperf×solsp (4)
-
-Concluding the final ANN derived from this optimization procedure, should have a good performance in the whole calibration dataset, a good generalization ability and give consistent predictions, smaller networks will get a slight advantage over bigger ones. 
 ```Matlab
 %% Solution space consistency criterion (Bernados & Vosniakos 2006)
 %The pressence of outlyers in the predictions will affect the obg. function
@@ -57,6 +63,11 @@ averageperc=average/(nmodpixels*npts);
 %distribution of error
 solspc=1+averageperc*0.33+badperc;
 ```
--Genetic Procedures
-The genetic procedures in the utilized GA, were kept as close to the default options of Matlab Global Optimization Toolbox as possible. After each chromosome of the initial population was evaluated according to the value of the objective function it generated, the algorithm created crossover children by combining pairs of parents in the current population. At each coordinate of the child vector, the default crossover function randomly selects an entry, or gene, at the same coordinate from one of the two parents and assigns it to the child. The algorithm usually selects individuals that have better fitness values as parents. The algorithm creates mutation children by randomly changing the genes of individual parents. The default selection option Stochastic uniform, was used. It lays out a line in which each parent corresponds to a section of the line of length proportional to its scaled value. The algorithm moves along the line in steps of equal size. At each step, the algorithm allocates a parent from the section it lands on. 80% of the new kids in the algorithm are selection kids. By default, for unconstrained problems, such as the current one, the algorithm adds a random vector from a Gaussian distribution to the parent. The best solution of the previous generation passes on to the next, being an “elite” child. 
+Incorporating the aforementioned criteria, the objective function, that the genetic algorithm minimizes, thus optimizing the architecture of feedforward neural networks, in our problem equals to:
+ObjFun=perf×testperf×solsp (4)
+```Matlab
+%% Final value of fitness!
+z=perf*testperf*solspc;
+```
+In conclusion, the ANN architecture derived from this optimization procedure, should have good generalization ability and give consistent predictions without significant outliers. Smaller networks will get a slight advantage over bigger ones. 
 
