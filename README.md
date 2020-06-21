@@ -3,9 +3,7 @@ The project utilizes genetic algorithms to optimize the architecture of multi-la
 
 **Problem description**
 
-The presented problem is one of conducting supervised regression analysis in a series of laboratory images simulating groundwater flow. Sandbox setups have been utilized over the years to recreate saline intrusion on a laboratory scale and study the mechanisms of this phenomenon. Recreating saltwater concentration fields from light intensity values is a widely applied image analysis practice in such investigations.
-
-A detailed description of the problem can be found in [Robinson et al. (2015)]( https://www.sciencedirect.com/science/article/pii/S0022169415007295) and [Robinson et al. (2018)]( https://link.springer.com/article/10.1007/s11269-018-1977-6).
+The presented problem is one of conducting supervised regression analysis in a series of laboratory images simulating groundwater flow. Sandbox setups have been utilized over the years to recreate saline intrusion on a laboratory scale and study the mechanisms of this phenomenon. Recreating saltwater concentration fields from light intensity values is a widely applied image analysis practice in such investigations.A detailed description of the problem can be found in [Robinson et al. (2015)]( https://www.sciencedirect.com/science/article/pii/S0022169415007295) and [Robinson et al. (2018)]( https://link.springer.com/article/10.1007/s11269-018-1977-6).
 
 **Genetic procedures**
 
