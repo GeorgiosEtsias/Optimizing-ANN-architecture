@@ -1,11 +1,11 @@
 # Optimizing ANN architecture using genetic algortihms
 The project utilizes genetic algorithms to optimize the architecture of multi-layered Artificial Neural Networks (ANN) conducting a regression analysis on monochromatic laboratory figures. It consists of a main script containg the geneatic algortihm [GeneticAlgorithm.m](https://github.com/GeorgiosEtsias/Optimizing-ANN-architecture/blob/master/GeneticAlgorithm.m) and two functions that are called in it, the objective function [Obejective.m](https://github.com/GeorgiosEtsias/Optimizing-ANN-architecture/blob/master/Objective.m) evaluating the suitability of each ANN architecture and a variation of the standard genetic algorithm plot script [gaplotbestcustom.m](https://github.com/GeorgiosEtsias/Optimizing-ANN-architecture/blob/master/gaplotbestcustom.m), that copes with the heuristic nature of the objective function. The data used for neural training can be found [here](https://filebin.net/2bkd1iiyy5tsetr7).
 
-**Problem description**
+# Problem description
 
 The presented problem is one of conducting supervised regression analysis in a series of laboratory images simulating groundwater flow. Sandbox setups have been utilized over the years to recreate saline intrusion on a laboratory scale and study the mechanisms of this phenomenon. Recreating saltwater concentration fields from light intensity values is a widely applied image analysis practice in such investigations.A detailed description of the problem can be found in [Robinson et al. (2015)]( https://www.sciencedirect.com/science/article/pii/S0022169415007295) and [Robinson et al. (2018)]( https://link.springer.com/article/10.1007/s11269-018-1977-6).
 
-**Genetic procedures**
+# Genetic procedures
 
 The genetic procedures in the utilized GA, were kept as close to the default options of Matlab Global Optimization Toolbox as possible. 
 
