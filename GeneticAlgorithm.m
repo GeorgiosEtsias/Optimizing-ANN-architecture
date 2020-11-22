@@ -3,9 +3,9 @@
 %--Build to cope with the heuristic nature of the objective function (ANN)%
 %The GA's objective function has 4 variables
 % x(1)= number of hidden layers
-% x(2)= number of neeurons in first hidden layer
-% x(3)= number of neeurons in second hidden layer
-% x(4)= number of neeurons in third hidden layer
+% x(2)= number of neurons in first hidden layer
+% x(3)= number of neurons in second hidden layer
+% x(4)= number of neurons in third hidden layer
 %-------------------------------------------------------------------------%
 
 clc
