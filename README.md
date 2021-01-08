@@ -73,3 +73,4 @@ ObjFun=perf×testperf×solsp (4)
 z=perf*testperf*solspc;
 ```
 In conclusion, the ANN architecture derived from this optimization procedure, should have good generalization ability and give consistent predictions without significant outliers. Smaller networks will get a slight advantage over bigger ones. 
+.
